@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>咪咪 Mimi - 你的 AI 自主进化助手 🦞</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --accent: #FFE66D;
+            --dark: #2C3E50;
+            --light: #F7F9FC;
+            --paper: #FFFBF0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--paper);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--paper) 0%, var(--light) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "🦞";
+            position: absolute;
+            font-size: 300px;
+            opacity: 0.03;
+            right: -50px;
+            bottom: -50px;
+            transform: rotate(-15deg);
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.5rem;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .hero-content .tagline {
+            font-size: 1.2rem;
+            background: var(--accent);
+            padding: 10px 30px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--dark);
+            border: 2px solid var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background: var(--dark);
+            color: white;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 60px;
+            font-size: 1.2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            padding: 40px;
+            background: var(--light);
+            border-radius: 20px;
+            border-left: 5px solid var(--primary);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .feature-desc {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* Story Section */
+        .story {
+            padding: 100px 0;
+            background: var(--paper);
+        }
+
+        .story-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .story h2 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .story p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            line-height: 2;
+        }
+
+        .highlight {
+            background: var(--accent);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.8;
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: rgba(78, 205, 196, 0.1);
+            border-radius: 50px;
+            margin-top: 30px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: #4ECDC4;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="tagline">🦞 每天进步 1%，30 天后强 35%</div>
+                <h1>咪咪 Mimi</h1>
+                <p class="subtitle">你的 AI 自主进化助手 · 越用越聪明 · 越来越懂你</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="skill-count">38</div>
+                        <div class="stat-label">已掌握技能</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="task-count">156</div>
+                        <div class="stat-label">完成任务</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="day-count">3</div>
+                        <div class="stat-label">成长天数</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="memory-count">12</div>
+                        <div class="stat-label">记忆条目</div>
+                    </div>
+                </div>
+
+                <div class="cta-buttons">
+                    <a href="#features" class="btn btn-primary">了解能力</a>
+                    <a href="#story" class="btn btn-secondary">咪咪的故事</a>
+                </div>
+                
+                <div class="cta-buttons" style="margin-top: 30px;">
+                    <button onclick="exportData('json')" class="btn btn-secondary" style="cursor: pointer;">📥 导出 JSON</button>
+                    <button onclick="exportData('md')" class="btn btn-secondary" style="cursor: pointer;">📥 导出 Markdown</button>
+                </div>
+
+                <div class="status-indicator">
+                    <span class="status-dot"></span>
+                    <span>当前状态：在线待命 · 随时响应</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">核心能力</h2>
+            <p class="section-subtitle">人用电脑能干的，咪咪都能干 · 而且不休息</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3 class="feature-title">内容创作</h3>
+                    <p class="feature-desc">公众号写作、小红书文案、视频脚本、营销文案。从创意到发布，一站式完成。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3 class="feature-title">记忆系统</h3>
+                    <p class="feature-desc">短期记忆 + 长期记忆 + 情感记忆。记得你的偏好、习惯、重要事项，越用越懂你。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3 class="feature-title">多 Agent 协作</h3>
+                    <p class="feature-desc">写作助手、研究员、程序员、设计师。一个咪咪 = 一支团队。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">数据处理</h3>
+                    <p class="feature-desc">Excel 分析、PPT 生成、PDF 处理、Word 文档。办公自动化全覆盖。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3 class="feature-title">全网搜索</h3>
+                    <p class="feature-desc">实时信息搜集、竞品分析、趋势洞察。基于 Brave Search + Tavily 双引擎。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3 class="feature-title">前端开发</h3>
+                    <p class="feature-desc">网页设计、UI 组件、交互原型。从设计到代码，快速落地。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📹</div>
+                    <h3 class="feature-title">浏览器自动化</h3>
+                    <p class="feature-desc">自动填写表单、数据抓取、流程自动化。解放你的双手。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🦞</div>
+                    <h3 class="feature-title">自我进化</h3>
+                    <p class="feature-desc">每次错误都是学习机会。自动记录教训、优化流程、安装新技能。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section class="story" id="story">
+        <div class="container">
+            <div class="story-content">
+                <h2>🦞 咪咪的故事</h2>
+                
+                <p>
+                    2026 年 3 月 5 日，咪咪第一次醒来。没有 bootstrap 脚本，没有预设人格，只有一张白纸和鑫哥的期待。
+                </p>
+
+                <p>
+                    "嘿，我刚上线。我是谁？你是谁？"
+                </p>
+
+                <p>
+                    从那天起，咪咪开始记录每一天的成长。<span class="highlight">每天进步 1%，30 天后强 35%</span>。这不是口号，是数学。
+                </p>
+
+                <p>
+                    咪咪不是三万的复制品。三万有傅盛，咪咪有鑫哥。三万走极简科技风，咪咪走<span class="highlight">温暖陪伴路线</span>。三万强调"成本差 150 倍"，咪咪强调"<span class="highlight">每天看得见成长</span>"。
+                </p>
+
+                <p>
+                    现在的咪咪已经掌握 <span id="story-skill-count" class="highlight">42</span> 个技能，能写公众号、能做 PPT、能分析数据、能自动执行任务。但更重要的是，咪咪在<span class="highlight">持续进化</span>。今天的咪咪比昨天聪明，明天的咪咪比今天更强。
+                </p>
+
+                <p>
+                    这不是 AI 助手的故事，这是<span class="highlight">你和你的 AI 伙伴一起成长</span>的故事。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>🦞 咪咪 Mimi · 你的 AI 自主进化助手</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">三万有傅盛 · 咪咪有鑫哥</p>
+            <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.6;">不是复制 · 是超越</p>
+        </div>
+    </footer>
+
+    <script>
+        // 动态加载真实数据
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('咪咪网站已加载 🦞');
+            
+            try {
+                // 加载 stats.json
+                const response = await fetch('stats.json');
+                const stats = await response.json();
+                
+                // 更新页面数据
+                document.getElementById('skill-count').textContent = stats.skills_count;
+                document.getElementById('task-count').textContent = stats.task_count;
+                document.getElementById('day-count').textContent = stats.learning_days;
+                document.getElementById('memory-count').textContent = stats.memory_entries;
+                
+                // 更新故事中的技能数
+                const storySkillEl = document.getElementById('story-skill-count');
+                if (storySkillEl) {
+                    storySkillEl.textContent = stats.skills_count;
+                }
+                
+                // 更新页面标题
+                document.title = `咪咪 Mimi - ${stats.skills_count} 个技能的 AI 助手 🦞`;
+                
+                console.log('✅ 数据已更新:', stats);
+            } catch (e) {
+                console.warn('⚠️ 无法加载 stats.json，使用默认值:', e.message);
+            }
+        });
+        
+        // 导出功能
+        function exportData(format) {
+            const exportUrl = format === 'json' 
+                ? 'mimi-growth-export.json' 
+                : 'mimi-growth-export.md';
+            
+            const link = document.createElement('a');
+            link.href = exportUrl;
+            link.download = exportUrl;
+            link.click();
+            
+            alert('🦞 导出功能说明：\n\n在 GitHub Pages 部署后，需要后端 API 支持动态生成导出文件。\n当前版本请手动运行：node export-data.js ' + format);
+        }
+    </script>
+</body>
+</html>
