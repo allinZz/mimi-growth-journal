@@ -1,0 +1,54 @@
+{
+  "tasks": [
+    {
+      "id": 1772876851167,
+      "title": "完成网站重构",
+      "status": "completed",
+      "priority": "high",
+      "created": "2026-03-07T09:47:31.167Z",
+      "due": "2026-03-07T00:00:00.000Z",
+      "completed": "2026-03-07T09:49:14.734Z"
+    },
+    {
+      "id": 1772876866908,
+      "title": "安装电脑控制技能",
+      "status": "pending",
+      "priority": "high",
+      "created": "2026-03-07T09:47:46.908Z",
+      "due": "2026-03-08T00:00:00.000Z",
+      "completed": null
+    },
+    {
+      "id": 1772876876680,
+      "title": "Notion 记忆同步",
+      "status": "pending",
+      "priority": "medium",
+      "created": "2026-03-07T09:47:56.680Z",
+      "due": "2026-03-08T00:00:00.000Z",
+      "completed": null
+    },
+    {
+      "id": 1772876893454,
+      "title": "创建 3 个子 Agent",
+      "status": "pending",
+      "priority": "high",
+      "created": "2026-03-07T09:48:13.454Z",
+      "due": "2026-03-09T00:00:00.000Z",
+      "completed": null
+    },
+    {
+      "id": 1772876898723,
+      "title": "技能数突破 50+",
+      "status": "pending",
+      "priority": "medium",
+      "created": "2026-03-07T09:48:18.723Z",
+      "due": "2026-03-09T00:00:00.000Z",
+      "completed": null
+    }
+  ],
+  "stats": {
+    "total": 5,
+    "pending": 4,
+    "completed": 1
+  }
+}

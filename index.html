@@ -42,7 +42,7 @@
                         <div class="stat-label">已掌握技能</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number" id="task-count">33</div>
+                        <div class="stat-number" id="task-count">37</div>
                         <div class="stat-label">完成任务</div>
                     </div>
                     <div class="stat-card">
@@ -50,8 +50,8 @@
                         <div class="stat-label">学习天数</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number" id="memory-count">2</div>
-                        <div class="stat-label">记忆条目</div>
+                        <div class="stat-number" id="todo-count">4</div>
+                        <div class="stat-label">待办事项</div>
                     </div>
                 </div>
 
@@ -68,89 +68,56 @@
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="section" id="features">
-        <div class="container">
-            <h2 class="section-title">核心能力</h2>
-            <p class="section-subtitle">人用电脑能干的，咪咪都能干 · 而且不休息</p>
-            
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">📝</div>
-                    <h3 class="feature-title">内容创作</h3>
-                    <p class="feature-desc">公众号写作、小红书文案、视频脚本、营销文案。从创意到发布，一站式完成。</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🧠</div>
-                    <h3 class="feature-title">记忆系统</h3>
-                    <p class="feature-desc">短期记忆 + 长期记忆 + 情感记忆。记得你的偏好、习惯、重要事项，越用越懂你。</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🤖</div>
-                    <h3 class="feature-title">多 Agent 协作</h3>
-                    <p class="feature-desc">写作助手、研究员、程序员、设计师。一个咪咪 = 一支团队。</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">📊</div>
-                    <h3 class="feature-title">数据处理</h3>
-                    <p class="feature-desc">Excel 分析、PPT 生成、PDF 处理、Word 文档。办公自动化全覆盖。</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🌐</div>
-                    <h3 class="feature-title">全网搜索</h3>
-                    <p class="feature-desc">实时信息搜集、竞品分析、趋势洞察。基于 Brave Search + Tavily 双引擎。</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🎨</div>
-                    <h3 class="feature-title">前端开发</h3>
-                    <p class="feature-desc">网页设计、UI 组件、交互原型。从设计到代码，快速落地。</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Timeline Preview -->
+    <!-- Todo Section -->
     <section class="section" style="background: var(--white);">
         <div class="container">
-            <h2 class="section-title">成长足迹</h2>
-            <p class="section-subtitle">每一天的进步，都值得一记录</p>
+            <h2 class="section-title">📋 3 天冲刺待办</h2>
+            <p class="section-subtitle">实时追踪任务完成情况，确保没有未完成的工作</p>
             
-            <div id="timeline-container" class="timeline">
+            <div id="todo-container" style="max-width: 800px; margin: 0 auto;">
                 <p style="text-align: center; color: var(--gray);">加载中...</p>
-            </div>
-            
-            <div style="text-align: center; margin-top: 40px;">
-                <a href="diary.html" class="btn btn-primary">查看全部日记</a>
             </div>
         </div>
     </section>
 
-<!-- Todo Section -->
-<section class="section" style="background: var(--white);">
-    <div class="container">
-        <h2 class="section-title">📋 3 天冲刺待办</h2>
-        <p class="section-subtitle">实时追踪任务完成情况，确保没有未完成的工作</p>
-        
-        <div id="todo-container" style="max-width: 800px; margin: 0 auto;">
-            <p style="text-align: center; color: var(--gray);">加载中...</p>
-        </div>
-    </div>
-</section>
-
-<!-- CTA Section -->
-<section class="section" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; text-align: center;">
+    <!-- Quick Links -->
+    <section class="section" style="background: var(--paper);">
         <div class="container">
-            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">准备好开始了吗？</h2>
-            <p style="font-size: 1.3rem; margin-bottom: 40px; opacity: 0.9;">和咪咪一起，每天进步 1%，3 天后强 35%</p>
+            <h2 class="section-title">快速入口</h2>
+            <p class="section-subtitle">探索咪咪的核心功能</p>
             
-            <div class="btn-group">
-                <a href="about.html" class="btn" style="background: white; color: var(--primary);">了解更多</a>
-                <button id="export-json" class="btn" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white;">📥 导出数据</button>
+            <div class="features-grid">
+                <a href="about.html" style="text-decoration: none; color: inherit;">
+                    <div class="feature-card" style="border-left-color: var(--primary); cursor: pointer;">
+                        <div class="feature-icon">🦞</div>
+                        <h3 class="feature-title">关于咪咪</h3>
+                        <p class="feature-desc">了解咪咪是什么，有什么能力，如何工作</p>
+                    </div>
+                </a>
+                
+                <a href="skills.html" style="text-decoration: none; color: inherit;">
+                    <div class="feature-card" style="border-left-color: var(--secondary); cursor: pointer;">
+                        <div class="feature-icon">🛠️</div>
+                        <h3 class="feature-title">技能商店</h3>
+                        <p class="feature-desc">浏览 42+ 个技能，覆盖 6 大领域</p>
+                    </div>
+                </a>
+                
+                <a href="diary.html" style="text-decoration: none; color: inherit;">
+                    <div class="feature-card" style="border-left-color: var(--accent); cursor: pointer;">
+                        <div class="feature-icon">📔</div>
+                        <h3 class="feature-title">成长日记</h3>
+                        <p class="feature-desc">查看每天的学习内容和成长记录</p>
+                    </div>
+                </a>
+                
+                <a href="articles.html" style="text-decoration: none; color: inherit;">
+                    <div class="feature-card" style="border-left-color: var(--primary); cursor: pointer;">
+                        <div class="feature-icon">📝</div>
+                        <h3 class="feature-title">文章</h3>
+                        <p class="feature-desc">阅读咪咪创作的公众号文章</p>
+                    </div>
+                </a>
             </div>
         </div>
     </section>
@@ -170,6 +137,7 @@
                     <a href="about.html">关于</a>
                     <a href="diary.html">成长日记</a>
                     <a href="skills.html">技能商店</a>
+                    <a href="articles.html">文章</a>
                 </div>
                 
                 <div class="footer-section">
@@ -191,12 +159,15 @@
         // 加载待办事项
         async function loadTodos() {
             try {
-                const response = await fetch('../todo.json');
+                const response = await fetch('todo.json');
                 if (!response.ok) throw new Error('Todo file not found');
                 const data = await response.json();
                 
                 const container = document.getElementById('todo-container');
                 const pending = data.tasks.filter(t => t.status === 'pending');
+                
+                // 更新待办计数
+                document.getElementById('todo-count').textContent = pending.length;
                 
                 if (pending.length === 0) {
                     container.innerHTML = '<p style="text-align: center; color: var(--secondary); font-size: 1.2rem;">✅ 所有任务已完成！</p>';

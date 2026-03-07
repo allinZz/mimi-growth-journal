@@ -204,7 +204,7 @@
                 
                 for (const date of dates.reverse()) {
                     try {
-                        const response = await fetch(`memory/${date}.md`);
+                        const response = await fetch(`../memory/${date}.md`);
                         if (response.ok) {
                             const content = await response.text();
                             const excerpt = extractDiaryExcerpt(content, date);
