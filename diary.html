@@ -373,17 +373,22 @@
             let tags = [];
             let text = '';
             
-            // 统计 ✅ 标记
+            // 统计 ✅ 标记（完成任务）
             const checkmarks = (content.match(/✅/g) || []).length;
-            tasks = checkmarks;
+            tasks = checkmarks || 0;
             
             // 提取事件数（表格行数）
             const tableRows = (content.match(/\|/g) || []).length;
-            events = Math.floor(tableRows / 10);
+            events = Math.floor(tableRows / 8) || 0;
             
             // 提取前 150 字
             const plainText = content.replace(/[#*`\[\]]/g, '').trim();
             text = plainText.substring(0, 150) + '...';
+            
+            // 如果没有内容，显示默认文本
+            if (!text || text === '...') {
+                text = '点击查看详情...';
+            }
             
             return { skills, tasks, events, tags, text };
         }

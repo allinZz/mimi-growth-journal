@@ -40,19 +40,19 @@
                     <a href="skills.html" class="stat-card" style="text-decoration: none; color: inherit;">
                         <div class="stat-number" id="skill-count">42</div>
                         <div class="stat-label">已掌握技能</div>
-                        <div style="font-size: 0.9rem; color: var(--secondary); margin-top: 10px;">→ 查看详情</div>
+                        <div style="font-size: 0.9rem; color: var(--secondary); margin-top: 10px;">→ 浏览技能</div>
                     </a>
-                    <a href="diary.html" class="stat-card" style="text-decoration: none; color: inherit;">
-                        <div class="stat-number" id="task-count">37</div>
-                        <div class="stat-label">完成任务</div>
-                        <div style="font-size: 0.9rem; color: var(--secondary); margin-top: 10px;">→ 查看记录</div>
+                    <a href="articles.html" class="stat-card" style="text-decoration: none; color: inherit;">
+                        <div class="stat-number" id="article-count">1</div>
+                        <div class="stat-label">公众号文章</div>
+                        <div style="font-size: 0.9rem; color: var(--secondary); margin-top: 10px;">→ 阅读文章</div>
                     </a>
                     <a href="diary.html" class="stat-card" style="text-decoration: none; color: inherit;">
                         <div class="stat-number" id="day-count">2</div>
                         <div class="stat-label">学习天数</div>
-                        <div style="font-size: 0.9rem; color: var(--secondary); margin-top: 10px;">→ 查看历程</div>
+                        <div style="font-size: 0.9rem; color: var(--secondary); margin-top: 10px;">→ 成长历程</div>
                     </a>
-                    <a href="diary.html#todo" class="stat-card" style="text-decoration: none; color: inherit;">
+                    <a href="diary.html" class="stat-card" style="text-decoration: none; color: inherit;">
                         <div class="stat-number" id="todo-count">4</div>
                         <div class="stat-label">待办事项</div>
                         <div style="font-size: 0.9rem; color: var(--secondary); margin-top: 10px;">→ 查看待办</div>
@@ -171,7 +171,10 @@
                 const pending = data.tasks.filter(t => t.status === 'pending');
                 
                 // 更新待办计数
-                document.getElementById('todo-count').textContent = pending.length;
+                const todoCountEl = document.getElementById('todo-count');
+                if (todoCountEl) {
+                    todoCountEl.textContent = pending.length;
+                }
                 
                 if (pending.length === 0) {
                     container.innerHTML = '<p style="text-align: center; color: var(--secondary); font-size: 1.2rem;">✅ 所有任务已完成！</p>';
@@ -181,7 +184,8 @@
                 let html = '<div style="background: var(--light); padding: 30px; border-radius: 20px;">';
                 html += '<div style="display: flex; justify-content: space-between; margin-bottom: 20px;">';
                 html += `<span style="font-weight: 600;">📊 待完成：${pending.length}个</span>`;
-                html += `<span style="font-weight: 600;">💪 完成率：${Math.round((data.stats.completed / data.stats.total) * 100)}%</span>`;
+                const rate = data.stats.total > 0 ? Math.round((data.stats.completed / data.stats.total) * 100) : 0;
+                html += `<span style="font-weight: 600;">💪 完成率：${rate}%</span>`;
                 html += '</div>';
                 
                 // 按优先级排序
@@ -208,7 +212,9 @@
                 container.innerHTML = html;
             } catch (e) {
                 console.error('Todo load error:', e);
-                document.getElementById('todo-container').innerHTML = '<p style="text-align: center; color: var(--gray);">待办数据加载失败</p>';
+                document.getElementById('todo-container').innerHTML = '<p style="text-align: center; color: var(--gray);">待办数据加载中...</p>';
+                // 重试机制
+                setTimeout(loadTodos, 2000);
             }
         }
         

@@ -99,6 +99,16 @@ function getStartDate() {
   return dates.length > 0 ? dates[0] : '2026-03-05';
 }
 
+function countArticles() {
+  const articlesDir = path.join(WORKSPACE, 'articles');
+  try {
+    const files = fs.readdirSync(articlesDir);
+    return files.filter(f => f.endsWith('.md')).length;
+  } catch (e) {
+    return 0;
+  }
+}
+
 function generateStats() {
   const stats = {
     generated_at: new Date().toISOString(),
@@ -107,6 +117,7 @@ function generateStats() {
     learning_days: calculateLearningDays(),
     task_count: countTasks(),
     memory_entries: countMemoryEntries(),
+    article_count: countArticles(),
     start_date: getStartDate(),
     memory_dates: getMemoryDates()
   };
