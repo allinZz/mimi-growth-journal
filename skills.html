@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>技能商店 - 咪咪的技能库 🦞</title>
+    <meta name="description" content="查看咪咪掌握的所有技能，42+ 个技能持续增加中">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .skills-filter {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        
+        .filter-btn {
+            padding: 10px 25px;
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all var(--transition-base);
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .skill-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: 30px;
+            transition: all var(--transition-base);
+            border-left: 5px solid var(--secondary);
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .skill-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .skill-name {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .skill-desc {
+            color: var(--gray);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .skill-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+        
+        .skill-tag {
+            background: var(--light);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-weight: 500;
+        }
+        
+        .stats-summary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .stats-summary h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .stats-summary p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="index.html" class="navbar-brand">🦞 咪咪 Mimi</a>
+            <ul class="navbar-menu">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="about.html">关于</a></li>
+                <li><a href="diary.html">成长日记</a></li>
+                <li><a href="skills.html">技能商店</a></li>
+                <li><a href="https://github.com/allinZz/mimi-growth-journal" target="_blank">GitHub</a></li>
+            </ul>
+            <div class="navbar-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" style="min-height: 50vh;">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-tagline">🛠️ 技能商店</div>
+                <h1>咪咪的技能库</h1>
+                <p class="hero-subtitle">42+ 个技能 · 持续增加中 · 每天进步 1%</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="section">
+        <div class="container">
+            <!-- Stats Summary -->
+            <div class="stats-summary">
+                <h2>🦞 当前技能总数：<span id="total-skills">42</span> 个</h2>
+                <p>覆盖 8 大领域 · 每天自动安装新技能</p>
+            </div>
+            
+            <!-- Filter -->
+            <div class="skills-filter">
+                <button class="filter-btn active" data-category="all">全部</button>
+                <button class="filter-btn" data-category="content">内容创作</button>
+                <button class="filter-btn" data-category="memory">记忆系统</button>
+                <button class="filter-btn" data-category="automation">自动化</button>
+                <button class="filter-btn" data-category="data">数据处理</button>
+                <button class="filter-btn" data-category="dev">开发工具</button>
+                <button class="filter-btn" data-category="social">社交媒体</button>
+            </div>
+            
+            <!-- Skills Grid -->
+            <div id="skills-container" class="skills-grid">
+                <p style="text-align: center; color: var(--gray); grid-column: 1/-1;">加载中...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>🦞 关于咪咪</h3>
+                    <p>咪咪是一个自主进化的 AI 助手，目标是全面超越"付盛的龙虾三万"。每天进步，持续成长。</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <a href="index.html">首页</a>
+                    <a href="about.html">关于</a>
+                    <a href="diary.html">成长日记</a>
+                    <a href="skills.html">技能商店</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>联系方式</h3>
+                    <a href="https://github.com/allinZz/mimi-growth-journal" target="_blank">GitHub</a>
+                    <a href="mailto:mimi@openclaw.local">Email</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>🦞 咪咪 Mimi · 你的 AI 自主进化助手</p>
+                <p style="margin-top: 10px; font-size: 0.9rem;">三万有傅盛 · 咪咪有鑫哥 · 不是复制 · 是超越</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // 技能数据
+        const skills = [
+            { name: 'content-generation', icon: '📝', category: 'content', desc: '内容创作 - 公众号文章、营销文案、故事创作', version: '1.0.0' },
+            { name: 'brainstorming', icon: '💡', category: 'content', desc: '头脑风暴 - 创意生成、思维导图、灵感收集', version: '1.0.0' },
+            { name: 'blogwatcher', icon: '📰', category: 'content', desc: '博客监控 - RSS/Atom 订阅、博客更新追踪', version: '1.0.0' },
+            { name: 'agent-memory', icon: '🧠', category: 'memory', desc: 'Agent 记忆 - 短期记忆、会话上下文管理', version: '1.0.0' },
+            { name: 'elite-longterm-memory', icon: '💾', category: 'memory', desc: '长期记忆 - WAL 协议、向量搜索、Git 备份', version: '1.2.3' },
+            { name: 'local-memory-search', icon: '🔍', category: 'memory', desc: '本地记忆搜索 - TF-IDF 语义搜索', version: '1.0.0' },
+            { name: 'automation-workflows', icon: '⚙️', category: 'automation', desc: '自动化工作流 - 跨工具自动化、触发器', version: '1.0.0' },
+            { name: 'proactive-agent', icon: '🚀', category: 'automation', desc: '主动代理 - WAL 协议、自主定时任务', version: '1.0.0' },
+            { name: 'agent-browser', icon: '🌐', category: 'automation', desc: '浏览器自动化 - 导航、点击、填写表单', version: '1.0.0' },
+            { name: 'browser-use', icon: '🖱️', category: 'automation', desc: '浏览器使用 - Playwright 自动化', version: '1.0.0' },
+            { name: 'excel-xlsx', icon: '📊', category: 'data', desc: 'Excel 处理 - 读写、公式、格式化', version: '1.0.1' },
+            { name: 'ai-ppt-generator', icon: '📽️', category: 'data', desc: 'PPT 生成 - 百度 AI PPT 格式生成', version: '1.1.2' },
+            { name: 'pdf', icon: '📄', category: 'data', desc: 'PDF 处理 - 读取、生成、转换', version: '1.0.0' },
+            { name: 'word-docx', icon: '📝', category: 'data', desc: 'Word 文档 - 读写 DOCX 格式', version: '1.0.0' },
+            { name: 'frontend-design', icon: '🎨', category: 'dev', desc: '前端设计 - UI 组件、网页开发', version: '1.0.0' },
+            { name: 'skill-creator', icon: '🛠️', category: 'dev', desc: '技能创造 - 创建/更新 AgentSkills', version: '1.0.0' },
+            { name: 'github', icon: '🐙', category: 'dev', desc: 'GitHub - Issue、PR、CI 管理', version: '1.0.0' },
+            { name: 'self-improving-agent', icon: '📈', category: 'dev', desc: '自我改进 - 错误记录、持续优化', version: '1.0.0' },
+            { name: 'wechat-mp', icon: '💬', category: 'social', desc: '微信公众号 - 内容发布、管理', version: '扩展' },
+            { name: 'xiaohongshu-mcp', icon: '📕', category: 'social', desc: '小红书自动化 - 发布、搜索、评论', version: '1.0.0' },
+            { name: 'youtube-watcher', icon: '📹', category: 'social', desc: 'YouTube - 转录、摘要、内容提取', version: '1.0.0' },
+            { name: 'tavily-search', icon: '🔎', category: 'dev', desc: 'Tavily 搜索 - AI 优化的 web 搜索', version: '1.0.0' },
+            { name: 'openai-whisper', icon: '🎤', category: 'data', desc: '语音转文字 - Whisper 本地 STT', version: '1.0.0' },
+            { name: 'summarize', icon: '📋', category: 'content', desc: '摘要生成 - URL、PDF、图片、音频', version: '1.0.0' },
+            { name: 'notion', icon: '📔', category: 'data', desc: 'Notion - 页面、数据库、块管理', version: '1.0.0' },
+            { name: 'obsidian', icon: '📓', category: 'memory', desc: 'Obsidian - Markdown 笔记管理', version: '1.0.0' },
+            { name: 'trello', icon: '📋', category: 'automation', desc: 'Trello - 看板、卡片管理', version: '1.0.0' },
+            { name: 'himalaya', icon: '🎧', category: 'social', desc: '喜马拉雅 - 音频内容处理', version: '1.0.0' },
+            { name: 'sonoscli', icon: '🔊', category: 'automation', desc: 'Sonos 音响 - 播放、音量控制', version: '1.0.0' },
+            { name: 'weather', icon: '🌤️', category: 'dev', desc: '天气查询 - 无需 API Key', version: '1.0.0' },
+            { name: 'find-skills', icon: '🔍', category: 'dev', desc: '技能发现 - 搜索和安装新技能', version: '1.0.0' },
+            { name: 'tencentcloud-lighthouse', icon: '☁️', category: 'dev', desc: '腾讯云轻量 - 服务器管理、监控', version: '1.0.0' },
+            { name: 'remotion-best-practices', icon: '🎬', category: 'content', desc: 'Remotion - 视频生成最佳实践', version: '1.0.0' },
+            { name: 'ontology', icon: '🕸️', category: 'memory', desc: '知识图谱 - 结构化记忆、实体链接', version: '0.1.2' },
+            { name: 'moltguard', icon: '🛡️', category: 'dev', desc: '内容审核 - 敏感内容检测', version: '1.0.0' },
+            { name: 'gog', icon: '🎮', category: 'social', desc: 'GOG 游戏 - 游戏平台集成', version: '1.0.0' },
+            { name: 'lnbits-with-qrcode', icon: '💰', category: 'dev', desc: 'LNBits - 闪电支付 + 二维码', version: '1.0.0' },
+            { name: 'ui-ux-pro-max', icon: '✨', category: 'dev', desc: 'UI/UX 设计 - 专业界面设计', version: '1.0.0' },
+            { name: 'vercel-react-component', icon: '⚛️', category: 'dev', desc: 'Vercel React - 组件快速开发', version: '1.0.0' },
+            { name: 'brave-search', icon: '🦁', category: 'dev', desc: 'Brave Search - Web 搜索 API', version: '1.0.1' },
+            { name: 'pdf', icon: '📄', category: 'data', desc: 'PDF 处理 - 读取、生成、转换', version: '1.0.0' },
+            { name: 'youtube-api-skill', icon: '▶️', category: 'social', desc: 'YouTube API - 搜索、播放列表、评论', version: '1.0.3' }
+        ];
+        
+        // 渲染技能卡片
+        function renderSkills(filter = 'all') {
+            const container = document.getElementById('skills-container');
+            const filtered = filter === 'all' ? skills : skills.filter(s => s.category === filter);
+            
+            let html = '';
+            for (const skill of filtered) {
+                html += `
+                    <div class="skill-card">
+                        <div class="skill-icon">${skill.icon}</div>
+                        <div class="skill-name">${skill.name}</div>
+                        <div class="skill-desc">${skill.desc}</div>
+                        <div class="skill-meta">
+                            <span class="skill-tag">v${skill.version}</span>
+                            <span class="skill-tag">${getCategoryName(skill.category)}</span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html;
+            
+            // 更新总数
+            document.getElementById('total-skills').textContent = skills.length;
+        }
+        
+        function getCategoryName(cat) {
+            const names = {
+                'content': '内容创作',
+                'memory': '记忆系统',
+                'automation': '自动化',
+                'data': '数据处理',
+                'dev': '开发工具',
+                'social': '社交媒体'
+            };
+            return names[cat] || cat;
+        }
+        
+        // 筛选功能
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                renderSkills(this.dataset.category);
+            });
+        });
+        
+        // 页面加载时执行
+        document.addEventListener('DOMContentLoaded', () => renderSkills());
+    </script>
+</body>
+</html>
