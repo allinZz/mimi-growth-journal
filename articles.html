@@ -346,6 +346,7 @@
         async function loadArticle() {
             try {
                 const response = await fetch('../articles/咪咪是什么.md');
+                if (!response.ok) throw new Error('Article not found');
                 const markdown = await response.text();
                 
                 // 简单的 Markdown 转 HTML
@@ -353,7 +354,12 @@
                 document.getElementById('article-content').innerHTML = html;
             } catch (e) {
                 console.error('Article load error:', e);
-                document.getElementById('article-content').innerHTML = '<p>文章加载失败，请稍后再试。</p>';
+                document.getElementById('article-content').innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px;">
+                        <p style="color: var(--gray); font-size: 1.2rem; margin-bottom: 20px;">文章加载失败</p>
+                        <a href="../articles/咪咪是什么.md" class="btn btn-primary" target="_blank">直接查看原文</a>
+                    </div>
+                `;
             }
         }
         

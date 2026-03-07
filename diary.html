@@ -100,6 +100,97 @@
             text-align: center;
             margin-top: 60px;
         }
+        
+        /* Modal 样式 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            max-width: 900px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 40px;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        .modal-close:hover {
+            color: var(--primary);
+        }
+        
+        .article-content h1 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin: 40px 0 20px;
+        }
+        
+        .article-content h2 {
+            color: var(--dark);
+            font-size: 1.6rem;
+            margin: 35px 0 15px;
+            border-left: 5px solid var(--secondary);
+            padding-left: 15px;
+        }
+        
+        .article-content h3 {
+            color: var(--dark-light);
+            font-size: 1.3rem;
+            margin: 30px 0 12px;
+        }
+        
+        .article-content p {
+            margin-bottom: 25px;
+            color: var(--dark-light);
+        }
+        
+        .article-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+        }
+        
+        .article-content th,
+        .article-content td {
+            border: 1px solid var(--light);
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .article-content th {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .article-content tr:nth-child(even) {
+            background: var(--paper);
+        }
     </style>
 </head>
 <body>
@@ -112,6 +203,7 @@
                 <li><a href="about.html">关于</a></li>
                 <li><a href="diary.html">成长日记</a></li>
                 <li><a href="skills.html">技能商店</a></li>
+                <li><a href="articles.html">文章</a></li>
                 <li><a href="https://github.com/allinZz/mimi-growth-journal" target="_blank">GitHub</a></li>
             </ul>
             <div class="navbar-toggle">
@@ -123,7 +215,7 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero" style="min-height: 50vh;">
+    <section class="hero" style="min-height: 40vh;">
         <div class="container">
             <div class="hero-content">
                 <div class="hero-tagline">📔 成长日记</div>
@@ -137,7 +229,7 @@
     <section class="section">
         <div class="container">
             <div id="diary-container" class="diary-grid">
-                <p style="text-align: center; color: var(--gray); grid-column: 1/-1;">加载中...</p>
+                <p style="text-align: center; color: var(--gray); grid-column: 1/-1; font-size: 1.2rem;">加载中...</p>
             </div>
             
             <!-- Export Section -->
@@ -146,12 +238,20 @@
                 <p style="color: var(--gray); margin-bottom: 30px;">下载完整的成长记录，支持 JSON 和 Markdown 格式</p>
                 
                 <div class="btn-group">
-                    <button id="export-json" class="btn btn-primary">📥 导出 JSON</button>
-                    <button id="export-md" class="btn btn-secondary">📄 导出 Markdown</button>
+                    <a href="mimi-growth-export.json" class="btn btn-primary" download>📥 导出 JSON</a>
+                    <a href="mimi-growth-export.md" class="btn btn-secondary" download>📄 导出 Markdown</a>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Modal for viewing diary content -->
+    <div class="modal-overlay" id="diary-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div id="modal-body" class="article-content"></div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -168,6 +268,7 @@
                     <a href="about.html">关于</a>
                     <a href="diary.html">成长日记</a>
                     <a href="skills.html">技能商店</a>
+                    <a href="articles.html">文章</a>
                 </div>
                 
                 <div class="footer-section">
@@ -218,16 +319,16 @@
                                     <div class="diary-content">
                                         <div class="diary-stats">
                                             <div class="diary-stat">
-                                                <div class="diary-stat-number">${excerpt.skills || '-'}</div>
-                                                <div class="diary-stat-label">技能</div>
-                                            </div>
-                                            <div class="diary-stat">
-                                                <div class="diary-stat-number">${excerpt.tasks || '-'}</div>
+                                                <div class="diary-stat-number">${excerpt.tasks || 0}</div>
                                                 <div class="diary-stat-label">任务</div>
                                             </div>
                                             <div class="diary-stat">
-                                                <div class="diary-stat-number">${excerpt.events || '-'}</div>
+                                                <div class="diary-stat-number">${excerpt.events || 0}</div>
                                                 <div class="diary-stat-label">事件</div>
+                                            </div>
+                                            <div class="diary-stat">
+                                                <div class="diary-stat-number">${excerpt.skills || '-'}</div>
+                                                <div class="diary-stat-label">技能</div>
                                             </div>
                                         </div>
                                         <div class="diary-excerpt">${excerpt.text}</div>
@@ -242,6 +343,18 @@
                         }
                     } catch (e) {
                         console.error(`Error loading ${date}:`, e);
+                        // 即使加载失败也显示卡片
+                        html += `
+                            <div class="diary-card" onclick="viewDiary('${date}')">
+                                <div class="diary-date">
+                                    <h3>${formatDateChinese(date)}</h3>
+                                    <p>${getWeekday(date)}</p>
+                                </div>
+                                <div class="diary-content">
+                                    <p style="color: var(--gray);">点击加载内容...</p>
+                                </div>
+                            </div>
+                        `;
                     }
                 }
                 
@@ -289,8 +402,88 @@
             return weekdays[date.getDay()];
         }
         
-        function viewDiary(date) {
-            window.open(`memory/${date}.md`, '_blank');
+        // 查看日记详情
+        async function viewDiary(date) {
+            try {
+                const response = await fetch(`../memory/${date}.md`);
+                if (!response.ok) throw new Error('Failed to load');
+                const content = await response.text();
+                
+                const html = markdownToHtml(content);
+                document.getElementById('modal-body').innerHTML = html;
+                document.getElementById('diary-modal').classList.add('active');
+            } catch (e) {
+                alert('加载失败，请稍后再试');
+                console.error(e);
+            }
+        }
+        
+        function closeModal() {
+            document.getElementById('diary-modal').classList.remove('active');
+        }
+        
+        // 点击遮罩关闭
+        document.getElementById('diary-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        // ESC 关闭
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+        
+        function markdownToHtml(md) {
+            let html = md;
+            
+            // 标题
+            html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+            html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+            html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+            
+            // 引用
+            html = html.replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>');
+            
+            // 粗体
+            html = html.replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>');
+            
+            // 斜体
+            html = html.replace(/\*(.*?)\*/gim, '<em>$1</em>');
+            
+            // 代码块
+            html = html.replace(/```(\w*)\n([\s\S]*?)```/gim, '<pre><code class="language-$1">$2</code></pre>');
+            
+            // 行内代码
+            html = html.replace(/`(.*?)`/gim, '<code>$1</code>');
+            
+            // 列表
+            html = html.replace(/^\- (.*$)/gim, '<li>$1</li>');
+            html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+            
+            // 表格
+            html = html.replace(/^\|(.*)\|$/gim, '<tr>$1</tr>');
+            
+            // 段落
+            html = html.replace(/\n\n/g, '</p><p>');
+            html = '<p>' + html + '</p>';
+            
+            // 清理多余标签
+            html = html.replace(/<p><\/p>/g, '');
+            html = html.replace(/<p>(<h[1-3]>)/g, '$1');
+            html = html.replace(/(<\/h[1-3]>)<\/p>/g, '$1');
+            html = html.replace(/<p>(<ul>)/g, '$1');
+            html = html.replace(/(<\/ul>)<\/p>/g, '$1');
+            html = html.replace(/<p>(<pre>)/g, '$1');
+            html = html.replace(/(<\/pre>)<\/p>/g, '$1');
+            html = html.replace(/<p>(<table>)/g, '$1');
+            html = html.replace(/(<\/table>)<\/p>/g, '$1');
+            html = html.replace(/<p>(<blockquote>)/g, '$1');
+            html = html.replace(/(<\/blockquote>)<\/p>/g, '$1');
+            
+            return html;
         }
         
         // 页面加载时执行
