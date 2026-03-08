@@ -19,11 +19,15 @@ echo "📥 生成导出文件..."
 cd "$WEBSITE_DIR"
 node export-data.js all
 
-# 3. 同步到 GitHub Pages (如果配置了)
+# 3. 生成日记数据
+echo "📔 生成日记数据..."
+node generate-diary-data.js
+
+# 4. 同步到 GitHub Pages (如果配置了)
 if [ -d "$WEBSITE_DIR/.git" ]; then
     echo "🚀 同步到 GitHub Pages..."
     cd "$WEBSITE_DIR"
-    git add stats.json mimi-growth-export.json mimi-growth-export.md
+    git add stats.json mimi-growth-export.json mimi-growth-export.md diary-data.json
     git commit -m "chore: auto-update stats $(date '+%Y-%m-%d %H:%M')" || true
     git push || true
 fi
