@@ -77,12 +77,15 @@ body::before {
     padding: 0 20px;
 }
 
-/* 导航栏 */
+/* 导航栏 - 固定定位，所有页面统一 */
 .navbar {
-    background: var(--white);
-    box-shadow: var(--shadow-sm);
-    position: sticky;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 1000;
     transition: all var(--transition-base);
 }
@@ -112,6 +115,13 @@ body::before {
 
 .navbar-brand:hover {
     color: var(--primary-dark);
+}
+
+.brand-subtitle {
+    font-size: 0.9em;
+    font-weight: normal;
+    color: var(--dark);
+    margin-left: 5px;
 }
 
 .navbar-menu {
@@ -162,7 +172,7 @@ body::before {
     transition: all var(--transition-fast);
 }
 
-/* Hero Section */
+/* Hero Section - 增加顶部 padding 避免被固定导航栏遮挡 */
 .hero {
     min-height: 90vh;
     display: flex;
@@ -172,7 +182,7 @@ body::before {
     background: linear-gradient(135deg, var(--paper) 0%, var(--light) 100%);
     position: relative;
     overflow: hidden;
-    padding: 60px 20px;
+    padding: 120px 20px 60px;
 }
 
 .hero::before {

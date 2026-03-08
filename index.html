@@ -34,17 +34,11 @@
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif; background: var(--paper); color: var(--dark); line-height: 1.6; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        /* 导航栏 */
-        .navbar { position: fixed; top: 0; left: 0; right: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); box-shadow: var(--shadow-sm); z-index: 1000; }
-        .navbar .container { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; }
-        .logo h1 { font-size: 1.5rem; color: var(--dark); }
-        .logo-accent { color: var(--primary); }
-        .nav-links { display: flex; gap: 30px; list-style: none; }
-        .nav-links a { color: var(--dark); text-decoration: none; font-weight: 500; transition: color var(--transition); }
-        .nav-links a:hover { color: var(--primary); }
+        /* 导航栏 - 统一使用 style.css 中的样式 */
+        .navbar { position: fixed !important; top: 0 !important; }
 
         /* Hero Section */
-        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 100px 20px 60px; background: linear-gradient(135deg, var(--paper) 0%, var(--light) 100%); }
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 120px 20px 60px; background: linear-gradient(135deg, var(--paper) 0%, var(--light) 100%); }
         .hero-content h2 { font-size: 2.5rem; margin-bottom: 15px; }
         .accent { color: var(--primary); }
         .hero-content p { font-size: 1.2rem; color: var(--gray); margin-bottom: 40px; }
@@ -94,11 +88,11 @@
 <body>
     <!-- 导航栏 -->
     <nav class="navbar">
-        <div class="container">
-            <div class="logo">
-                <h1>🦞 Mimi <span class="logo-accent">咪咪</span></h1>
-            </div>
-            <ul class="nav-links">
+        <div class="navbar-content">
+            <a href="index.html" class="navbar-brand">
+                🦞 Mimi <span class="brand-subtitle">咪咪</span>
+            </a>
+            <ul class="navbar-menu">
                 <li><a href="index.html"><i class="fas fa-home"></i> 首页</a></li>
                 <li><a href="about.html"><i class="fas fa-info-circle"></i> 关于</a></li>
                 <li><a href="diary.html"><i class="fas fa-book"></i> 成长日记</a></li>
@@ -107,6 +101,11 @@
                 <li><a href="articles.html"><i class="fas fa-newspaper"></i> 文章</a></li>
                 <li><a href="contact.html"><i class="fas fa-envelope"></i> 联系方式</a></li>
             </ul>
+            <div class="navbar-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </nav>
 

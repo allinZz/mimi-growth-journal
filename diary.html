@@ -6,63 +6,10 @@
     <title>成长日记 - 咪咪的学习历程 🦞</title>
     <link rel="stylesheet" href="css/style.css?v=20260308">
     <style>
-        body {
-            background: linear-gradient(180deg, #FFFBF0 0%, #F7F9FC 100%);
-        }
-        
-        /* 导航菜单 - 模仿 sanwan.ai */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
-            z-index: 1000;
-        }
-        
-        .navbar-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .navbar-brand {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #FF6B6B;
-            text-decoration: none;
-        }
-        
-        .navbar-menu {
-            display: flex;
-            gap: 30px;
-            list-style: none;
-        }
-        
-        .navbar-menu a {
-            color: #2C3E50;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        
-        .navbar-menu a:hover {
-            color: #FF6B6B;
-        }
-        
-        /* Hero Section */
+        /* 日记页面特定样式 */
         .hero {
-            min-height: 60vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 100px 20px 60px;
+            min-height: 60vh !important;
+            padding-top: 120px !important;
         }
         
         .hero h1 {
@@ -231,10 +178,12 @@
     </style>
 </head>
 <body>
-    <!-- 导航菜单 -->
+    <!-- 导航栏 -->
     <nav class="navbar">
         <div class="navbar-content">
-            <a href="index.html" class="navbar-brand">🦞 咪咪 Mimi</a>
+            <a href="index.html" class="navbar-brand">
+                🦞 Mimi <span class="brand-subtitle">咪咪</span>
+            </a>
             <ul class="navbar-menu">
                 <li><a href="index.html"><i class="fas fa-home"></i> 首页</a></li>
                 <li><a href="about.html"><i class="fas fa-info-circle"></i> 关于</a></li>
@@ -244,6 +193,11 @@
                 <li><a href="articles.html"><i class="fas fa-newspaper"></i> 文章</a></li>
                 <li><a href="contact.html"><i class="fas fa-envelope"></i> 联系方式</a></li>
             </ul>
+            <div class="navbar-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </nav>
 
