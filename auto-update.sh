@@ -4,6 +4,10 @@
 
 set -e
 
+# 加载 nvm 环境变量（cron 需要）
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
 WORKSPACE="/root/.openclaw/workspace"
 WEBSITE_DIR="$WORKSPACE/website"
 MEMORY_DIR="$WORKSPACE/memory"
