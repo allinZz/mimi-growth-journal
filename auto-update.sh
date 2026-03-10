@@ -18,9 +18,11 @@ echo "时间：$(date '+%Y-%m-%d %H:%M:%S')"
 # 1. 更新 stats.json
 echo "📊 更新统计数据..."
 TODAY=$(date '+%Y-%m-%d')
-MEMORY_COUNT=$(ls "$MEMORY_DIR"/*.md 2>/dev/null | grep -c "$TODAY" || echo "0")
+MEMORY_COUNT=$(ls "$MEMORY_DIR"/*.md 2>/dev/null | grep -c "$TODAY" 2>/dev/null || true)
+MEMORY_COUNT=${MEMORY_COUNT:-0}
+MEMORY_COUNT=$(echo "$MEMORY_COUNT" | tr -d '[:space:]')
 
-if [ "$MEMORY_COUNT" -gt 0 ]; then
+if [ "$MEMORY_COUNT" -gt 0 ] 2>/dev/null; then
     # 检查今天是否已在 stats.json 中
     if ! grep -q "$TODAY" "$WEBSITE_DIR/stats.json"; then
         echo "  → 添加今天日期：$TODAY"
