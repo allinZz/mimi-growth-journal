@@ -8,6 +8,9 @@ set -e
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
+# 使用绝对路径确保 cron 环境能找到 node
+NODE_BIN="/root/.nvm/versions/node/v22.22.1/bin/node"
+
 WORKSPACE="/root/.openclaw/workspace"
 WEBSITE_DIR="$WORKSPACE/website"
 MEMORY_DIR="$WORKSPACE/memory"
@@ -18,16 +21,15 @@ echo "时间：$(date '+%Y-%m-%d %H:%M:%S')"
 # 1. 更新 stats.json
 echo "📊 更新统计数据..."
 TODAY=$(date '+%Y-%m-%d')
-MEMORY_COUNT=$(ls "$MEMORY_DIR"/*.md 2>/dev/null | grep -c "$TODAY" 2>/dev/null || true)
-MEMORY_COUNT=${MEMORY_COUNT:-0}
-MEMORY_COUNT=$(echo "$MEMORY_COUNT" | tr -d '[:space:]')
+MEMORY_COUNT=$(ls "$MEMORY_DIR"/*.md 2>/dev/null | grep -c "$TODAY" 2>/dev/null || echo "0")
+MEMORY_COUNT=$(echo "$MEMORY_COUNT" | tr -d '[:space:]' | head -c 5)
 
-if [ "$MEMORY_COUNT" -gt 0 ] 2>/dev/null; then
+if [ "$MEMORY_COUNT" -gt 0 ]; then
     # 检查今天是否已在 stats.json 中
     if ! grep -q "$TODAY" "$WEBSITE_DIR/stats.json"; then
         echo "  → 添加今天日期：$TODAY"
         # 使用 node 更新 JSON
-        node -e "
+        "$NODE_BIN" -e "
 const fs = require('fs');
 const stats = JSON.parse(fs.readFileSync('$WEBSITE_DIR/stats.json', 'utf-8'));
 if (!stats.memory_dates.includes('$TODAY')) {
@@ -44,11 +46,11 @@ fi
 
 # 2. 生成日记数据
 echo "📝 生成日记数据..."
-cd "$WEBSITE_DIR" && node generate-diary-data.js
+cd "$WEBSITE_DIR" && "$NODE_BIN" generate-diary-data.js
 
 # 3. 导出数据
 echo "💾 导出数据..."
-cd "$WEBSITE_DIR" && node export-data.js all
+cd "$WEBSITE_DIR" && "$NODE_BIN" export-data.js all
 
 # 4. 推送到 GitHub
 echo "🚀 推送到 GitHub..."
