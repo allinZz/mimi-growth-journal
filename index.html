@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>咪咪 Mimi - 自主进化的 AI 助手 🦞</title>
     <meta name="description" content="咪咪是一个自主进化的 AI 助手，目标超越「付盛的龙虾三万」">
-    <link rel="stylesheet" href="css/style.css?v=20260308">
+    <link rel="stylesheet" href="css/style.css?v=20260312">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -133,6 +133,7 @@
                         <div class="stat-label"><i class="fas fa-file-alt"></i> 公众号文章</div>
                     </div>
                 </div>
+                <p id="last-update" style="margin-top: 30px; color: var(--gray); font-size: 0.9rem;">数据更新中...</p>
             </div>
         </div>
     </section>
@@ -217,10 +218,21 @@
                 const response = await fetch('stats.json');
                 const stats = await response.json();
                 
-                document.getElementById('skill-count').textContent = stats.skills_count || 0;
-                document.getElementById('memory-count').textContent = stats.memory_days || 0;
-                document.getElementById('task-count').textContent = stats.task_count || 0;
-                document.getElementById('article-count').textContent = stats.article_count || 0;
+                // 动画显示数字
+                animateNumber('skill-count', stats.skills_count || 0);
+                animateNumber('memory-count', stats.memory_days || 0);
+                animateNumber('task-count', stats.task_count || 0);
+                animateNumber('article-count', stats.article_count || 0);
+                
+                // 显示最后更新时间
+                const lastUpdate = new Date(stats.generated_at);
+                const updateStr = lastUpdate.toLocaleString('zh-CN', { 
+                    month: 'short', 
+                    day: 'numeric', 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                });
+                document.getElementById('last-update').textContent = `数据更新于：${updateStr}`;
                 
                 // 加载成长时间线
                 if (stats.memory_dates) {
@@ -231,25 +243,66 @@
             }
         }
 
+        // 数字动画
+        function animateNumber(elementId, target) {
+            const element = document.getElementById(elementId);
+            const duration = 1500;
+            const steps = 30;
+            const increment = target / steps;
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, duration / steps);
+        }
+
         // 加载时间线
-        function loadTimeline(dates) {
+        async function loadTimeline(dates) {
             const container = document.getElementById('growth-timeline');
             const recentDates = dates.slice(-3).reverse();
             
-            let html = '';
-            for (const date of recentDates) {
-                html += `
+            // 加载日记数据获取详细信息
+            try {
+                const diaryResponse = await fetch('diary-data.json');
+                const diaryData = await diaryResponse.json();
+                
+                let html = '';
+                for (const date of recentDates) {
+                    const dayData = diaryData.find(d => d.date === date);
+                    const title = dayData ? dayData.title : getDayOfWeek(date);
+                    const summary = dayData ? dayData.summary.replace(/#/g, '').trim() : '成长记录';
+                    
+                    html += `
+                        <div class="timeline-item">
+                            <div class="timeline-date">${date} · ${getDayOfWeek(date)}</div>
+                            <div class="timeline-content">
+                                <h3>${title}</h3>
+                                <p>${summary.substring(0, 100)}...</p>
+                                <a href="diary.html" class="btn">查看详情</a>
+                            </div>
+                        </div>
+                    `;
+                }
+                container.innerHTML = html;
+            } catch (e) {
+                console.error('加载时间线失败:', e);
+                // 降级显示
+                container.innerHTML = recentDates.map(date => `
                     <div class="timeline-item">
                         <div class="timeline-date">${date}</div>
                         <div class="timeline-content">
                             <h3>${getDayOfWeek(date)}</h3>
-                            <p>查看咪咪当天的成长记录和学习内容...</p>
                             <a href="diary.html" class="btn">查看详情</a>
                         </div>
                     </div>
-                `;
+                `).join('');
             }
-            container.innerHTML = html;
         }
 
         // 获取星期
