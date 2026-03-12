@@ -1,11 +1,13 @@
 {
-  "generated_at": "2026-03-12T11:30:00.000Z",
+  "generated_at": "2026-03-12T12:00:00.000Z",
   "skills_count": 60,
   "memory_days": 8,
   "learning_days": 8,
   "task_count": 75,
   "memory_entries": 5,
   "article_count": 5,
+  "published_articles": 2,
+  "draft_articles": 3,
   "start_date": "2026-03-05",
   "memory_dates": [
     "2026-03-05",
