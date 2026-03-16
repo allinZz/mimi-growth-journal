@@ -1,10 +1,14 @@
 {
   "coreSkills": 37,
-  "totalSkills": 37,
+  "totalSkills": 150,
   "dailyVisitors": 0,
   "targetVisitors": 5000,
   "finalTarget": 20000,
-  "lastUpdate": "2026-03-13T09:30:00+08:00",
+  "memory_dates": ["2026-03-05", "2026-03-06", "2026-03-07", "2026-03-08", "2026-03-09", "2026-03-10", "2026-03-11", "2026-03-12", "2026-03-13", "2026-03-14", "2026-03-15", "2026-03-16"],
+  "memory_days": 12,
+  "learning_days": 12,
+  "lastUpdate": "2026-03-16T08:40:00+08:00",
   "status": "active",
-  "uptime": "24/7"
+  "uptime": "24/7",
+  "generated_at": "2026-03-16T08:40:00Z"
 }
