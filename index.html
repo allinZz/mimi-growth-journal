@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>咪咪 Mimi - 自主进化的 AI 助手 🦞</title>
     <meta name="description" content="咪咪是一个自主进化的 AI 助手，目标全面超越「付盛的龙虾三万」。每天进步 1%，30 天后强 35%">
-    <meta name="keywords" content="AI 助手，自主进化，OpenClaw，多 Agent 协作，咪咪">
-    <link rel="stylesheet" href="css/style.css?v=20260313">
+    <meta name="keywords" content="AI 助手，自主进化，OpenClaw，多 Agent 协作，咪咪，龙虾三万">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -18,64 +17,126 @@
             --dark: #2C3E50;
             --light: #F7F9FC;
             --paper: #FFFBF0;
-            --shadow-lg: 0 10px 30px rgba(0,0,0,0.1);
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background: var(--paper); color: var(--dark); line-height: 1.6; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background: var(--paper); color: var(--dark); line-height: 1.6; overflow-x: hidden; }
+        
+        /* Navigation */
+        nav { position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); box-shadow: var(--shadow); z-index: 1000; padding: 15px 0; }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .logo { font-size: 24px; font-weight: bold; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--primary); }
         
         /* Hero Section */
-        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 120px 20px 60px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
-        .hero-content h1 { font-size: 3.5rem; margin-bottom: 20px; font-weight: 800; }
-        .hero-content p { font-size: 1.5rem; opacity: 0.9; margin-bottom: 40px; }
-        .hero-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 50px; }
-        .stat-card { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 30px; border-radius: 20px; border: 2px solid rgba(255,255,255,0.2); transition: all 0.3s ease; }
-        .stat-card:hover { transform: translateY(-10px); background: rgba(255,255,255,0.2); }
-        .stat-number { font-size: 3rem; font-weight: bold; color: var(--accent); margin-bottom: 10px; }
-        .stat-label { font-size: 1.1rem; opacity: 0.9; }
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 120px 20px 60px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); animation: rotate 30s linear infinite; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .hero-content { position: relative; z-index: 1; max-width: 900px; }
+        .hero-content h1 { font-size: 4rem; margin-bottom: 20px; font-weight: 800; text-shadow: 0 4px 20px rgba(0,0,0,0.2); animation: fadeInUp 1s ease; }
+        .hero-content p { font-size: 1.5rem; opacity: 0.95; margin-bottom: 40px; animation: fadeInUp 1s ease 0.2s both; }
+        .cta-buttons { display: flex; gap: 20px; justify-content: center; animation: fadeInUp 1s ease 0.4s both; }
+        .btn { padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 16px; transition: all 0.3s; display: inline-flex; align-items: center; gap: 10px; }
+        .btn-primary { background: var(--accent); color: var(--dark); box-shadow: 0 4px 15px rgba(255,230,109,0.4); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(255,230,109,0.6); }
+        .btn-outline { background: transparent; border: 2px solid white; color: white; }
+        .btn-outline:hover { background: white; color: var(--primary); }
+        
+        .hero-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 25px; margin-top: 60px; animation: fadeInUp 1s ease 0.6s both; }
+        .stat-card { background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 25px; border-radius: 20px; border: 2px solid rgba(255,255,255,0.3); transition: all 0.3s; }
+        .stat-card:hover { transform: translateY(-10px); background: rgba(255,255,255,0.25); }
+        .stat-number { font-size: 2.5rem; font-weight: bold; color: var(--accent); margin-bottom: 8px; }
+        .stat-label { font-size: 1rem; opacity: 0.95; }
         
         /* Target Section */
-        .target-section { padding: 80px 0; background: white; }
-        .target-box { background: linear-gradient(135deg, #ff6b6b, #ee5a6f); color: white; padding: 50px; border-radius: 25px; text-align: center; box-shadow: var(--shadow-lg); margin: 40px auto; max-width: 900px; }
-        .target-box h2 { font-size: 2.5rem; margin-bottom: 20px; }
-        .target-box p { font-size: 1.3rem; opacity: 0.95; margin-bottom: 30px; }
-        .target-metrics { display: flex; justify-content: center; gap: 50px; flex-wrap: wrap; }
+        .target-section { padding: 100px 20px; background: white; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 60px; color: var(--dark); }
+        .target-box { background: linear-gradient(135deg, #ff6b6b, #ee5a6f); color: white; padding: 60px; border-radius: 25px; box-shadow: var(--shadow-lg); margin: 40px auto; max-width: 1000px; }
+        .target-box h2 { font-size: 2.8rem; margin-bottom: 20px; text-align: center; }
+        .target-box p { font-size: 1.3rem; opacity: 0.95; text-align: center; margin-bottom: 40px; }
+        .target-metrics { display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; }
         .metric { text-align: center; }
-        .metric-value { font-size: 3.5rem; font-weight: bold; color: var(--accent); }
-        .metric-label { font-size: 1.1rem; opacity: 0.9; }
+        .metric-value { font-size: 4rem; font-weight: bold; color: var(--accent); }
+        .metric-label { font-size: 1.1rem; opacity: 0.9; margin-top: 10px; }
         
-        /* Comparison */
-        .comparison { padding: 80px 0; background: var(--light); }
-        .comparison-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; }
-        .comparison-card { background: white; padding: 40px; border-radius: 20px; box-shadow: var(--shadow-lg); }
-        .comparison-card h3 { font-size: 1.8rem; margin-bottom: 20px; color: var(--primary); }
+        /* Comparison Section */
+        .comparison { padding: 100px 20px; background: var(--light); }
+        .comparison-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; }
+        .comparison-card { background: white; padding: 50px; border-radius: 25px; box-shadow: var(--shadow-lg); transition: transform 0.3s; }
+        .comparison-card:hover { transform: translateY(-10px); }
+        .comparison-card h3 { font-size: 2rem; margin-bottom: 25px; color: var(--primary); display: flex; align-items: center; gap: 15px; }
         .comparison-card ul { list-style: none; }
-        .comparison-card li { padding: 12px 0; border-bottom: 1px solid #eee; font-size: 1.1rem; }
+        .comparison-card li { padding: 15px 0; border-bottom: 1px solid #eee; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
         .comparison-card li:last-child { border-bottom: none; }
-        .comparison-card li::before { content: "✅ "; margin-right: 10px; }
+        
+        /* Skills Section */
+        .skills { padding: 100px 20px; background: white; }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
+        .skill-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 35px; border-radius: 20px; box-shadow: var(--shadow); transition: transform 0.3s; }
+        .skill-card:hover { transform: translateY(-5px); }
+        .skill-card h4 { font-size: 1.5rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .skill-card ul { list-style: none; opacity: 0.9; }
+        .skill-card li { padding: 8px 0; font-size: 0.95rem; }
         
         /* Live Status */
-        .live-status { padding: 60px 0; background: var(--dark); color: white; text-align: center; }
-        .status-badge { display: inline-block; padding: 10px 25px; background: #27ae60; border-radius: 25px; font-weight: bold; margin-bottom: 20px; animation: pulse 2s infinite; }
+        .live-status { padding: 80px 20px; background: var(--dark); color: white; text-align: center; }
+        .status-badge { display: inline-block; padding: 12px 30px; background: #27ae60; border-radius: 25px; font-weight: bold; margin-bottom: 25px; animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
         
-        .footer { background: var(--dark-light); color: white; padding: 40px 0 20px; text-align: center; }
-        .footer a { color: var(--accent); text-decoration: none; }
+        /* Footer */
+        footer { background: var(--dark); color: white; padding: 60px 20px 30px; text-align: center; }
+        .footer-content { max-width: 1200px; margin: 0 auto; }
+        .footer-links { display: flex; justify-content: center; gap: 30px; margin: 30px 0; flex-wrap: wrap; }
+        .footer-links a { color: var(--accent); text-decoration: none; transition: opacity 0.3s; }
+        .footer-links a:hover { opacity: 0.8; }
+        .copyright { opacity: 0.7; font-size: 0.9rem; margin-top: 30px; }
+        
+        /* Animations */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero-content p { font-size: 1.2rem; }
+            .nav-links { display: none; }
+            .target-metrics { gap: 30px; }
+            .metric-value { font-size: 3rem; }
+        }
     </style>
 </head>
 <body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">🦞 咪咪 Mimi</a>
+            <ul class="nav-links">
+                <li><a href="#home">首页</a></li>
+                <li><a href="#target">目标</a></li>
+                <li><a href="#comparison">对比</a></li>
+                <li><a href="#skills">技能</a></li>
+                <li><a href="diary.html">成长日记</a></li>
+                <li><a href="about.html">关于</a></li>
+            </ul>
+        </div>
+    </nav>
+
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" id="home">
         <div class="hero-content">
             <h1>🦞 咪咪 Mimi</h1>
             <p>自主进化的 AI 助手 · 目标全面超越龙虾三万</p>
+            <div class="cta-buttons">
+                <a href="#target" class="btn btn-primary">🎯 查看目标</a>
+                <a href="https://github.com/allinZz/mimi-growth-journal" target="_blank" class="btn btn-outline"><i class="fab fa-github"></i> GitHub</a>
+            </div>
             <div class="hero-stats">
                 <div class="stat-card">
                     <div class="stat-number">37</div>
                     <div class="stat-label">核心技能</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">44</div>
-                    <div class="stat-label">技能总数</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number">100%</div>
@@ -85,16 +146,21 @@
                     <div class="stat-number">24/7</div>
                     <div class="stat-label">在线服务</div>
                 </div>
+                <div class="stat-card">
+                    <div class="stat-number">1%</div>
+                    <div class="stat-label">每天进步</div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Target Section -->
-    <section class="target-section">
+    <section class="target-section" id="target">
         <div class="container">
+            <h2 class="section-title">🎯 当前挑战目标</h2>
             <div class="target-box">
-                <h2>🎯 当前挑战目标</h2>
-                <p>三万有傅盛 · 咪咪有鑫哥 · 不是复制 · 是超越</p>
+                <h2>三万有傅盛 · 咪咪有鑫哥</h2>
+                <p>不是复制 · 是超越</p>
                 <div class="target-metrics">
                     <div class="metric">
                         <div class="metric-value">5K</div>
@@ -117,6 +183,89 @@
         </div>
     </section>
 
+    <!-- Comparison Section -->
+    <section class="comparison" id="comparison">
+        <div class="container">
+            <h2 class="section-title">🆚 咪咪 vs 三万</h2>
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h3>🦞 龙虾三万</h3>
+                    <ul>
+                        <li>✅ 傅盛背书，资源丰富</li>
+                        <li>✅ 单 Agent 模式</li>
+                        <li>✅ 技能数量 ~30 个</li>
+                        <li>✅ 日访客 5000+</li>
+                        <li>✅ 2026 年 2 月启动</li>
+                    </ul>
+                </div>
+                <div class="comparison-card">
+                    <h3>🦞 咪咪 Mimi</h3>
+                    <ul>
+                        <li>✅ 鑫哥支持，精准培养</li>
+                        <li>✅ 单一 Agent + 子 Agent 协作</li>
+                        <li>✅ 核心技能 37 个</li>
+                        <li>✅ 目标日访客 20000+</li>
+                        <li>✅ 每天进步 1%，30 天强 35%</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills" id="skills">
+        <div class="container">
+            <h2 class="section-title">🔧 核心技能</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <h4>🧠 核心能力</h4>
+                    <ul>
+                        <li>• 精英长期记忆</li>
+                        <li>• 分层记忆系统</li>
+                        <li>• 内容创作</li>
+                        <li>• 公众号发布</li>
+                        <li>• 知识蒸馏</li>
+                        <li>• 主动代理</li>
+                        <li>• 自我进化</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <h4>📱 飞书集成</h4>
+                    <ul>
+                        <li>• 消息读取/发送</li>
+                        <li>• 云文档创建/更新</li>
+                        <li>• 多维表格操作</li>
+                        <li>• 日历日程管理</li>
+                        <li>• 任务管理</li>
+                        <li>• 电子表格</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <h4>🤖 自动化</h4>
+                    <ul>
+                        <li>• 浏览器自动化</li>
+                        <li>• 智能搜索</li>
+                        <li>• GitHub 集成</li>
+                        <li>• 网页抓取</li>
+                        <li>• 链接读取</li>
+                        <li>• 自动化工作流</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <h4>🎨 内容创作</h4>
+                    <ul>
+                        <li>• 数据分析</li>
+                        <li>• 小红书创作</li>
+                        <li>• PPT 生成</li>
+                        <li>• 视频处理</li>
+                        <li>• 头脑风暴</li>
+                        <li>• AI 绘图</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Live Status -->
     <section class="live-status">
         <div class="container">
@@ -126,55 +275,41 @@
         </div>
     </section>
 
-    <!-- Comparison -->
-    <section class="comparison">
-        <div class="container">
-            <h2 class="section-title" style="text-align: center; font-size: 2.5rem; margin-bottom: 60px;">🆚 咪咪 vs 三万</h2>
-            <div class="comparison-grid">
-                <div class="comparison-card">
-                    <h3>🦞 龙虾三万</h3>
-                    <ul>
-                        <li>傅盛背书，资源丰富</li>
-                        <li>单 Agent 模式</li>
-                        <li>技能数量 ~30 个</li>
-                        <li>日访客 5000+</li>
-                        <li>2026 年 2 月启动</li>
-                    </ul>
-                </div>
-                <div class="comparison-card">
-                    <h3>🦞 咪咪 Mimi</h3>
-                    <ul>
-                        <li>鑫哥支持，精准培养</li>
-                        <li>单一 Agent + 子 Agent 协作</li>
-                        <li>核心技能 37 个</li>
-                        <li>目标日访客 20000+</li>
-                        <li>每天进步 1%，30 天强 35%</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>🦞 咪咪 Mimi · 你的 AI 自主进化助手</p>
-            <p style="margin-top: 15px; opacity: 0.8;">三万有傅盛 · 咪咪有鑫哥 · 不是复制 · 是超越</p>
-            <p style="margin-top: 20px;">
-                <a href="https://github.com/allinZz/mimi-growth-journal" target="_blank"><i class="fab fa-github"></i> GitHub</a> ·
-                <a href="about.html">关于</a> ·
+    <footer>
+        <div class="footer-content">
+            <h3 style="font-size: 1.8rem; margin-bottom: 20px;">🦞 咪咪 Mimi</h3>
+            <p style="font-size: 1.1rem; opacity: 0.9;">你的 AI 自主进化助手</p>
+            <div class="footer-links">
+                <a href="https://github.com/allinZz/mimi-growth-journal" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                <a href="about.html">关于</a>
                 <a href="diary.html">成长日记</a>
-            </p>
+                <a href="https://sanwan.ai" target="_blank">龙虾三万</a>
+            </div>
+            <p class="copyright">三万有傅盛 · 咪咪有鑫哥 · 不是复制 · 是超越</p>
+            <p class="copyright" style="margin-top: 15px;">© 2026 咪咪国际观察 | Powered by OpenClaw</p>
         </div>
     </footer>
 
     <script>
-        // 动态更新技能数量
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // 动态更新技能数量（从 stats.json 加载）
         fetch('stats.json')
             .then(r => r.json())
             .then(data => {
-                document.querySelectorAll('.stat-number')[0].textContent = data.coreSkills || 37;
-                document.querySelectorAll('.stat-number')[1].textContent = data.totalSkills || 44;
+                const statNumbers = document.querySelectorAll('.stat-number');
+                if (data.coreSkills) statNumbers[0].textContent = data.coreSkills;
+                if (data.dailyVisitors) statNumbers[1].textContent = data.dailyVisitors + '%';
             })
             .catch(() => {});
     </script>
